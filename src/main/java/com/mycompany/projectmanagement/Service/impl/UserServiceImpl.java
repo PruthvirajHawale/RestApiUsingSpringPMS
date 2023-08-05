@@ -7,6 +7,7 @@ import com.mycompany.projectmanagement.dto.UserDTO;
 import com.mycompany.projectmanagement.entity.UserEntity;
 import com.mycompany.projectmanagement.execption.BusinessException;
 import com.mycompany.projectmanagement.execption.ErrorModel;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO registerUser(UserDTO userDTO) {
+
+        Optional<UserEntity> userEntity1 = userRepository.findByEmail(userDTO.getEmail());
+        //Check is user is already registered
+        if(userEntity1.isPresent()){
+            List<ErrorModel> errorModels = new ArrayList<>();
+            ErrorModel errorModel = new ErrorModel();
+            errorModel.setCode("USER_ALREADY_EXISTS");
+            errorModel.setMessage("please try to register with new email ID");
+            errorModels.add(errorModel);
+           throw new BusinessException(errorModels);
+        }
         UserEntity userEntity = userConverter.ConvertDTOtoEntity(userDTO);
-         userEntity = userRepository.save(userEntity);
+        userEntity = userRepository.save(userEntity);
         return userConverter.ConvertEntitytoDTO(userEntity);
     }
 

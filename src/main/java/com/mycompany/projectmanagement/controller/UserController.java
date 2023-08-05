@@ -18,9 +18,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register-user")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
         userDTO = userService.registerUser(userDTO);
-        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED); //sonarLint Plug
+        return new ResponseEntity<String>(userDTO.getEmail() +" is Registered Successfull", HttpStatus.CREATED); //sonarLint Plug
     }
 
     @PostMapping("/login")
