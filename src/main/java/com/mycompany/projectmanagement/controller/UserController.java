@@ -3,6 +3,8 @@ package com.mycompany.projectmanagement.controller;
 
 import com.mycompany.projectmanagement.Service.UserService;
 import com.mycompany.projectmanagement.dto.UserDTO;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,15 @@ public class UserController {
         return new ResponseEntity<String>(userDTO.getEmail() +" is Registered Successfull", HttpStatus.CREATED); //sonarLint Plug
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody UserDTO userDTO){
+    @ApiOperation(value = "register",notes = "This method is used for user registration")
+    @PostMapping(value = "/login", consumes = "application/json", produces = {"application/json"})
+    public ResponseEntity<String> loginUser(@ApiParam(
+            name = "userDTO",
+            type = "UserDTO",
+            value = "User data",
+            example = "user information",
+            required = true
+    ) @Valid @RequestBody UserDTO userDTO){
         boolean isLogin = userService.loginUser(userDTO.getEmail(), userDTO.getPassword());
         if(isLogin){
             return new ResponseEntity<String>("Login Successfully", HttpStatus.OK);

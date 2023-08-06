@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties(ignoreUnknown = true) //
 public class UserDTO {
 
+    private Long id;
     @NotNull(message = "Owner Email is mandatory")
     @NotEmpty(message = "Owner Email cannot be empty")
     @Size(min=1, max=50, message = "Owner Email should be between 1 to 50 characteristics in length")
