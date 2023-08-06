@@ -25,7 +25,7 @@ public class PropertyEntity {
     private String address;
 
     @JoinColumn(name = "USER_ID",nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //it will not fetch user data while fetching property
     private UserEntity userEntity;
 
 
